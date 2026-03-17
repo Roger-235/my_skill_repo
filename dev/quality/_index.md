@@ -1,0 +1,14 @@
+# dev / quality — 代碼品質
+
+| Skill | 說明 | 觸發詞 |
+|-------|------|--------|
+| code-review | 寫完代碼後自動觸發審查 | review code, write code（自動觸發） |
+| code-reviewer | PR 自動化代碼審查：複雜度、風險、SOLID 分析 | review pull request, analyze PR, code reviewer |
+| code-quality | 代碼品質分析：SOLID、smell、複雜度 | check code quality, find code smells, 分析代碼品質 |
+| refactor | 系統化重構（保持行為不變） | refactor, clean up code, extract method, 重構 |
+| debug | 系統化除錯流程 | debug, find the bug, error, crash, 找 bug |
+| build-fix | 診斷並修復建置/編譯錯誤，找出根因 | build fails, compilation error, 建置失敗, 編譯錯誤 |
+| dependency-auditor | 稽核依賴套件：過時版本、安全漏洞、授權風險 | audit dependencies, outdated packages, dependency security |
+| env-secrets-manager | 環境變數與密鑰管理：安全存取、輪換策略 | env vars, secrets management, environment variables |
+| pr-review-expert | 專家級 PR 審查：架構、效能、安全性深度分析 | expert PR review, deep code review, senior review |
+| tech-debt-tracker | 掃描技術債、評分嚴重性、生成優先修復計畫 | tech debt, code health, debt scoring, cleanup sprint |

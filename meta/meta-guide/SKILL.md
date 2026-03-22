@@ -42,15 +42,17 @@ None.
 |------|-------|-------|
 | Design a skill spec (research + multiple choice) | `skill-design` | Explicit: "我需要一個功能", "I need a skill for X" |
 | Create a new skill from a confirmed spec | `skill-maker` | Called by skill-design after spec is approved |
-| Modify an existing skill (steps, rules, triggers, output) | `skill-edit` | Explicit: "edit skill X", "修改 skill" |
+| Modify an existing skill (steps, rules, triggers, output) | `skill-edit` | Explicit: "edit skill X", "修改 skill" — required when trigger keywords or name change |
 | Audit a newly created/modified skill for quality + security | `skill-audit` | Auto: after skill-maker or skill-edit |
+| Scan a **third-party** skill for malicious code before installing | `skill-security-auditor` | Explicit: "audit before install", "scan third-party skill" |
 | Check that README matches SKILL.md after an edit | `skill-readme-sync` | Auto: after any SKILL.md edit |
 | Sync _index.md, README.md, CLAUDE.md after skill added/deleted/renamed | `skill-index-sync` | Auto: after skill-maker or skill-edit |
 | Validate entire library structure (naming, files, guides, index sync) | `skill-library-lint` | Auto: after skill-maker, skill-edit, skill-index-sync |
-| Review all outputs for completeness + correctness before delivery | `pre-output-review` | Auto: before every substantive response |
+| Review all outputs for completeness + correctness before delivery | `pre-output-review` | Auto: before every response the user will act on |
 | Break a complex task into tracked subtasks | `task-planner` | Explicit: "plan this task", "分解任務" |
 | Save and restore progress in a long task | `checkpoint-recovery` | Explicit: "checkpoint", "save progress", "儲存進度" |
-| Extract reusable patterns to persistent memory | `continuous-learning` | Explicit: "remember this pattern", "記下來" |
+| Save a new pattern from the current conversation | `continuous-learning` | Explicit: "remember this pattern", "記下來" |
+| Review + graduate existing memories to rules or skills | `self-improving-agent` | Explicit: "review memory", "promote to rules", "/si:review" |
 | Analyze and reduce context window token usage | `token-optimizer` | Explicit: "token usage", "context 快滿了" |
 
 ## Meta Skill Pipeline
@@ -58,27 +60,36 @@ None.
 ```
 ── 建立新 skill ─────────────────────────────────────
 User: "我需要一個功能 / I need a skill for X"
-  → skill-design  (web research + multiple choice spec)
-  → skill-maker  (generate SKILL.md + README.md)
-  → skill-audit  (auto: structure + conflict + duplicate)
-      └→ security-audit  (invoked by skill-audit)
+  → skill-design       (web research + multiple choice spec)
+  → skill-maker        (generate SKILL.md + README.md)
+  → skill-audit        (auto: structure + conflict + duplicate)
+      └→ security-audit    (invoked by skill-audit for security phase)
   → skill-readme-sync  (auto: after any SKILL.md write)
-  → skill-index-sync  (auto: sync _index.md / README.md / CLAUDE.md)
-  → skill-library-lint  (auto: validate full library structure)
+  → skill-index-sync   (auto: sync _index.md / README.md / CLAUDE.md)
+  → skill-library-lint (auto: validate full library structure)
   → DELIVERED ✓
 
 ── 修改現有 skill ───────────────────────────────────
 User: "edit skill X"
-  → skill-edit  (impact analysis + targeted change)
+  → skill-edit         (required if trigger keywords / name / category change)
   → skill-readme-sync  (auto: after SKILL.md edit)
-  → skill-audit  (auto: re-audit modified skill)
-  → category-guide update  (if trigger keywords changed)
-  → skill-index-sync  (auto: if name/description/category changed)
-  → skill-library-lint  (auto: validate full library structure)
+  → skill-audit        (auto: re-audit modified skill)
+  → category-guide     (update Routing Table if trigger keywords changed)
+  → skill-index-sync   (auto: if name/description/category changed)
+  → skill-library-lint (auto: validate full library structure)
   → DONE ✓
 
+── 安裝第三方 skill ─────────────────────────────────
+  → skill-security-auditor  (static scan: prompt injection, malicious code, supply chain)
+  → PASS → install ✓  /  FAIL → do not install
+
+── 記憶管理 ─────────────────────────────────────────
+  new pattern (this session)  → continuous-learning  → MEMORY.md
+  review + graduate patterns  → self-improving-agent → CLAUDE.md / .claude/rules/
+  extract as reusable skill   → self-improving-agent /si:extract → skill-maker
+
 ── 每次輸出前 ───────────────────────────────────────
-  → pre-output-review  (auto: before every substantive output)
+  → pre-output-review  (auto: before every response the user will act on)
 ```
 
 ## Output Format

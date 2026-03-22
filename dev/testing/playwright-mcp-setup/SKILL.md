@@ -12,7 +12,15 @@ Guide the complete setup of `@playwright/mcp` as an MCP server so Claude gains d
 
 ## Trigger
 
-When the user wants to give Claude direct browser control via the `@playwright/mcp` MCP server, set up browser automation through MCP, or configure Playwright as a tool available to Claude.
+Apply when user requests:
+- "Playwright MCP", "setup playwright MCP", "@playwright/mcp"
+- "give Claude browser control", "Claude browser automation", "MCP browser testing"
+- "configure browser tools for Claude", "browser control via MCP"
+
+Do NOT trigger for:
+- Writing Playwright test scripts without MCP — use `playwright-pro`
+- General MCP server setup — use `mcp-maker`
+- Running existing Playwright tests
 
 ## Prerequisites
 
@@ -90,6 +98,30 @@ When the user wants to give Claude direct browser control via the `@playwright/m
 
 Step-by-step instructions with configuration JSON blocks. After setup confirmation, provide usage examples demonstrating what Claude can now do with browser control.
 
+```
+## Playwright MCP Setup
+
+### 1. Install browsers
+npx playwright install chromium
+
+### 2. Configure claude_desktop_config.json
+{
+  "mcpServers": {
+    "playwright": { "command": "npx", "args": ["@playwright/mcp@latest"] }
+  }
+}
+
+### 3. Restart Claude Desktop
+
+### 4. Verify
+Ask Claude: "Take a screenshot of https://example.com"
+Expected: Claude uses browser_navigate → browser_screenshot → returns image
+
+### Available browser tools
+browser_navigate, browser_click, browser_type, browser_screenshot,
+browser_evaluate, browser_wait_for
+```
+
 ## Rules
 
 ### Must
@@ -107,14 +139,16 @@ Step-by-step instructions with configuration JSON blocks. After setup confirmati
 
 ## Examples
 
-### Good
+### Good Example
 
 User: "How do I give Claude browser control with Playwright MCP?"
 
 Claude provides the full setup: installs Chromium via `npx playwright install chromium`, shows the exact JSON config for `claude_desktop_config.json` with the `npx @playwright/mcp@latest` command, explains headed vs. headless, instructs to restart Claude Desktop, and provides a test prompt to verify the tools are available.
 
-### Bad
+### Bad Example
 
 User: "Set up Playwright MCP."
 
-Claude responds: "Install Playwright with `npm install playwright` and configure the MCP server." — incorrect package name (`@playwright/mcp` not `playwright`), no config JSON, no restart instruction, no verification step.
+Claude responds: "Install Playwright with `npm install playwright` and configure the MCP server."
+
+> Why this is bad: Wrong package name (`@playwright/mcp` not `playwright`). No config JSON shown. No restart instruction. No verification step. The user still can't complete the setup from this response.

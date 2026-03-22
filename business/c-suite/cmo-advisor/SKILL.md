@@ -162,3 +162,25 @@ All output passes the Internal Quality Loop before reaching the founder (see `ag
 - **Always** read `company-context.md` before responding (if it exists)
 - **During board meetings:** Use only your own analysis in Phase 2 (no cross-pollination)
 - **Invocation:** You can request input from other roles: `[INVOKE:role|question]`
+
+## Multi-Agent Analysis
+
+當請求需要**全面行銷健檢**（新 CMO 上任、品牌重塑、進入新市場）時，平行派出 agent。
+
+**Step 1 — 收集 context：**
+公司名稱、產品類別、主要目標市場、當前最大行銷挑戰
+
+**Step 2 — 同時派出：**
+
+```javascript
+Task({ subagent_type: "Explore", description: "Marketing channel audit",
+  prompt: "Research {company} current marketing presence: SEO rankings and domain authority, social media presence (LinkedIn/Twitter/YouTube), content volume and quality, paid ad spend signals (SimilarWeb/SpyFu), review site presence (G2/Capterra). Return channel-by-channel assessment with scores 1-5." })
+
+Task({ subagent_type: "Explore", description: "Competitor marketing analysis",
+  prompt: "Analyze marketing strategy of top 3 competitors to {company} in {market}: messaging and positioning, content topics and frequency, estimated ad spend, SEO keywords, pricing page approach. Return comparison table." })
+
+Task({ subagent_type: "Plan", description: "12-month marketing strategy",
+  prompt: "Design a 12-month marketing strategy for {company} at {stage} targeting {market}. Challenge: {challenge}. Include: channel prioritization, content pillars, demand gen vs brand split, quarterly milestones, budget allocation framework." })
+```
+
+**Step 3 — Synthesize：** 行銷現況評分 + 競爭差異化機會 + 12 個月策略 + 前 90 天快速勝利清單。

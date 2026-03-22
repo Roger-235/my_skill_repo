@@ -178,3 +178,25 @@ You don't need all metrics to run a diagnostic. The tool handles partial data:
 ## References
 - `references/health-benchmarks.md` — benchmarks by stage (Seed, A, B, C)
 - `scripts/health_scorer.py` — CLI scoring tool with traffic light output
+
+## Multi-Agent Analysis
+
+當需要**完整 8 維度健診**（新 CEO/COO 上任、融資前評估、年度規劃）時，平行派出 agent。
+
+**Step 1 — 收集 context：**
+公司名稱、階段、可用指標清單（財務、收入、人員、工程、產品、營運、安全、市場）
+
+**Step 2 — 同時派出：**
+
+```javascript
+Task({ subagent_type: "Explore", description: "Financial + Revenue health",
+  prompt: "Diagnose financial and revenue health of {company} at {stage}. Financial: runway months, burn multiple, gross margin, cash trend. Revenue: ARR growth rate, NRR, pipeline coverage, win rate. Score each metric Green/Yellow/Red using: runway Green >12mo, burn multiple Green <1.5x, NRR Green >110%, pipeline coverage Green >3x. Return scored table with trend arrows and top 2 risks." })
+
+Task({ subagent_type: "Explore", description: "People + Engineering + Operations health",
+  prompt: "Diagnose people, engineering, and operations health of {company}. People: regrettable attrition rate, time-to-fill, engagement score, manager span of control. Engineering: deployment frequency, MTTR, tech debt %, D30 bug rate. Operations: OKR completion rate, meeting cadence adherence, process documentation coverage. Score each metric Green/Yellow/Red. Return scored table with top 2 risks per dimension." })
+
+Task({ subagent_type: "Explore", description: "Product + Market + Security health",
+  prompt: "Diagnose product, market, and security health of {company}. Product: NPS/CSAT trend, DAU/MAU ratio, D30/D90 retention, feature adoption rate. Market: CAC trend, organic vs paid mix, win rate, competitive win rate. Security: last pen test recency, critical CVEs open, compliance certifications. Score each metric Green/Yellow/Red. Return scored table with dimension interaction risks (which red triggers cascade)." })
+```
+
+**Step 3 — Synthesize：** 8 維度統一評分儀表板 + 跨維度連鎖風險地圖 + 前 30 天優先行動清單（按紅燈數量排序）。

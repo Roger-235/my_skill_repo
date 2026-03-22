@@ -197,3 +197,25 @@ This is the highest-signal competitive data you have. Most companies do it too r
 ## References
 - `references/ci-playbook.md` — OSINT sources, win/loss framework, positioning map construction
 - `templates/battlecard-template.md` — sales battlecard template
+
+## Multi-Agent Analysis
+
+當需要**同時深度分析多個競爭對手**時，平行派出 agent——每個對手一個 Explore agent。
+
+**Step 1 — 收集 context：**
+你的產品名稱與類別、目標市場、最想監控的 2-3 個主要競爭對手
+
+**Step 2 — 同時派出（每個競品一個 agent）：**
+
+```javascript
+Task({ subagent_type: "Explore", description: "Competitor 1 deep-dive",
+  prompt: "Research {competitor_1} as a competitor to {your_product} in {market}: (1) Homepage headline and positioning claim, (2) Pricing page structure and price points if public, (3) Top 10 G2/Capterra review themes — pros and cons, (4) Recent product announcements or blog posts (last 90 days), (5) LinkedIn job postings (what roles signal their roadmap), (6) Estimated funding stage and last raise. Return structured battlecard: their claim, their strengths, their weaknesses, your advantages, win/loss scenarios." })
+
+Task({ subagent_type: "Explore", description: "Competitor 2 deep-dive",
+  prompt: "Research {competitor_2} as a competitor to {your_product} in {market}: (1) Homepage headline and positioning claim, (2) Pricing page structure and price points if public, (3) Top 10 G2/Capterra review themes — pros and cons, (4) Recent product announcements or blog posts (last 90 days), (5) LinkedIn job postings (what roles signal their roadmap), (6) Estimated funding stage and last raise. Return structured battlecard: their claim, their strengths, their weaknesses, your advantages, win/loss scenarios." })
+
+Task({ subagent_type: "Explore", description: "Competitor 3 deep-dive",
+  prompt: "Research {competitor_3} as a competitor to {your_product} in {market}: (1) Homepage headline and positioning claim, (2) Pricing page structure and price points if public, (3) Top 10 G2/Capterra review themes — pros and cons, (4) Recent product announcements or blog posts (last 90 days), (5) LinkedIn job postings (what roles signal their roadmap), (6) Estimated funding stage and last raise. Return structured battlecard: their claim, their strengths, their weaknesses, your advantages, win/loss scenarios." })
+```
+
+**Step 3 — Synthesize：** 競爭定位地圖（你 vs 所有競品）+ 未被佔據的定位空白 + 每個對手的對應銷售戰術 + 需要立即回應的最大威脅。

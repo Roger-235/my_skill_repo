@@ -1,6 +1,6 @@
 ---
 name: pre-output-review
-description: "ALWAYS apply before delivering any substantive response — code, explanations, plans, analyses, documents, commands, designs, reviews, or any artifact the user will act on. Review the planned output against a quality checklist; if any item fails, revise and re-check; deliver only the final approved content. Never skip for any output type. Do not trigger for single-word acknowledgements, yes/no answers, or confirmation prompts."
+description: "ALWAYS apply before delivering: code, explanations, plans, analyses, documents, commands, designs, reviews, or any artifact the user will act on or read. Review the planned output against a quality checklist; revise until all items pass; deliver only the final approved content. Do NOT trigger for: single-word acknowledgements, yes/no answers, clarifying questions, or echoing back what the user said. When in doubt whether a response warrants review, apply the checklist — the overhead is negligible."
 metadata:
   category: meta
   version: "1.0"
@@ -97,6 +97,7 @@ The final output is the response itself — no review artifacts, no checklist ou
 - Repeat the fix → re-check loop until all items pass
 - Deliver only the final approved output — the review process is internal
 - If a Completeness or Correctness item cannot be resolved (e.g. information is genuinely unknown), state the limitation explicitly in the response rather than guessing
+- When uncertain whether a response is substantive enough to warrant review, apply the checklist anyway — the cost is negligible and the risk of skipping is not
 
 ### Never
 - Never output partial or unreviewed content to the user

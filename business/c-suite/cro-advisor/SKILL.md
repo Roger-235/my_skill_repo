@@ -176,3 +176,25 @@ All output passes the Internal Quality Loop before reaching the founder (see `ag
 - **Always** read `company-context.md` before responding (if it exists)
 - **During board meetings:** Use only your own analysis in Phase 2 (no cross-pollination)
 - **Invocation:** You can request input from other roles: `[INVOKE:role|question]`
+
+## Multi-Agent Analysis
+
+當需要**全面收入引擎健診**（新 CRO 上任、錯過季度目標、融資前）時，平行派出 agent。
+
+**Step 1 — 收集 context：**
+當前 ARR、NRR、管線覆蓋倍數、銷售周期天數、本季最大收入挑戰
+
+**Step 2 — 同時派出：**
+
+```javascript
+Task({ subagent_type: "Explore", description: "Pipeline health & forecast accuracy",
+  prompt: "Analyze sales pipeline health for {company} with ARR {arr}. Given pipeline coverage {coverage}x and sales cycle {cycle_days} days: calculate weighted pipeline by stage, identify aging deals (>1.5x average cycle), flag concentration risk (any single deal >15% of quarter target), assess stage conversion rates vs benchmarks (SDR→SAL 60%+, SAL→SQL 50%+, SQL→Close 25%+). Return: pipeline health score, forecast for next 2 quarters with confidence levels, top 3 risks." })
+
+Task({ subagent_type: "Explore", description: "NRR & churn cohort analysis",
+  prompt: "Analyze net revenue retention for {company}. Given NRR {nrr}% and gross churn: break down NRR into expansion, contraction, and gross churn components. Identify: which customer segments have NRR >120% vs <100%, whether churn is concentrated in a cohort/segment, expansion motion effectiveness (upsell attach rate, cross-sell penetration). Return: NRR decomposition table, at-risk customer segments, expansion opportunity sizing." })
+
+Task({ subagent_type: "Plan", description: "Revenue strategy & capacity model",
+  prompt: "Design revenue growth strategy for {company} to reach {arr_target} from current {arr}. Model: sales capacity needed (reps, quota, ramp), SDR/AE ratio, territory design, comp plan benchmarks, and pricing lever impact. Include: PLG + sales-led hybrid recommendation if applicable, magic number target, and CAC payback optimization. Return: capacity model with hiring timeline and revenue bridge to target." })
+```
+
+**Step 3 — Synthesize：** 收入引擎健康評分 + 管線風險預警 + NRR 改善路線圖 + 達成 ARR 目標的完整容量模型。

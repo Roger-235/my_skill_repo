@@ -20,6 +20,8 @@ Apply after:
 - `skill-maker` creates a new skill
 - `skill-edit` deletes or renames a skill, or changes its one-line description
 
+Trigger keywords: "sync index files", "update skill index", "skill was added", "skill was renamed", "同步 skill 索引", "更新 skill 列表", "索引不同步"
+
 Do NOT trigger when:
 - Only the skill's internal steps, rules, or output format changed — those do not affect index content
 - Only README.md or the category guide changed — use `skill-readme-sync` for that

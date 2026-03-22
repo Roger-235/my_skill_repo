@@ -217,3 +217,25 @@ RECOMMENDED DECISION
 ## References
 - `references/scenario-planning.md` — Shell methodology, pre-mortem, Monte Carlo, cascade frameworks
 - `scripts/scenario_modeler.py` — CLI tool for structured scenario modeling
+
+## Multi-Agent Analysis
+
+當需要**同時建模多個複合情境**時，平行派出 agent——每個情境一個 agent，最後整合交叉影響。
+
+**Step 1 — 收集 context：**
+公司階段、當前 ARR、現金跑道、最擔心的 2-3 個獨立風險事件
+
+**Step 2 — 同時派出：**
+
+```javascript
+Task({ subagent_type: "Plan", description: "Scenario A: Revenue risk cascade",
+  prompt: "Model compound scenario for {company} at {stage} with ARR {arr} and runway {runway_months} months. Scenario: {risk_a} (e.g. top customer churns + fundraise delayed 3 months). Map: Base (one event) → Stress (both events) → Severe (both + competitor raises). For each level: runway impact, ARR impact, headcount impact, timeline to critical state. Define 3 early warning signals and 3 hedging actions with cost and owner. Return structured war-room output." })
+
+Task({ subagent_type: "Plan", description: "Scenario B: Operational risk cascade",
+  prompt: "Model compound scenario for {company} at {stage}. Scenario: {risk_b} (e.g. 3 key engineers leave + product launch delayed 2 quarters). Map: Base → Stress → Severe with runway, ARR, and velocity impact at each level. Define 3 early warning signals observable today and 3 hedging actions. Identify which C-suite roles own each response. Return structured war-room output." })
+
+Task({ subagent_type: "Explore", description: "Historical precedents + benchmark responses",
+  prompt: "Research how companies at {stage} with {arr} ARR have navigated: {risk_a} and {risk_b}. Find 3-5 case studies or public examples. For each: what triggered the event, what the company did first, what worked, what failed. Extract 3 transferable lessons. Return as structured findings with source and applicability score." })
+```
+
+**Step 3 — Synthesize：** 跨情境交叉影響分析（A+B 同時發生的複合情境）+ 統一早期預警信號儀表板 + 優先對沖行動清單（按風險降低效益排序）。

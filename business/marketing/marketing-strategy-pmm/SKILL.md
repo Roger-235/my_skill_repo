@@ -388,3 +388,25 @@ All output passes quality verification:
 - **launch-strategy**: For executing product launches planned by PMM.
 - **competitive-intel** (C-Suite): For strategic competitive intelligence.
 - **cmo-advisor** (C-Suite): For marketing budget and growth model decisions.
+
+## Multi-Agent Analysis
+
+當需要**完整 GTM 策略**（新產品上市、進入新市場、重新定位）時，平行派出 agent。
+
+**Step 1 — 收集 context：**
+產品名稱與類別、目標市場、最大競爭對手（1-3 個）、上市時間線、最大訴求
+
+**Step 2 — 同時派出：**
+
+```javascript
+Task({ subagent_type: "Explore", description: "ICP & customer research",
+  prompt: "Research ideal customer profile for {product} in {market}: analyze firmographics of companies most likely to buy (size, industry, tech stack, funding stage), map buyer personas (economic/technical/user), identify top 5 pain points from review sites (G2, Capterra, Reddit, LinkedIn) and competitor reviews. Return ICP definition with evidence score for each attribute." })
+
+Task({ subagent_type: "Explore", description: "Competitive positioning analysis",
+  prompt: "Analyze positioning and messaging of {competitor_1}, {competitor_2}, {competitor_3} competing with {product}: screenshot their homepage headlines, pricing page copy, and top 3 ad creatives. Identify: the market category each claims, their primary differentiator claim, messaging gaps and unclaimed positions. Return positioning map with white-space opportunities." })
+
+Task({ subagent_type: "Plan", description: "GTM launch plan",
+  prompt: "Design GTM launch plan for {product} targeting {market} with launch in {timeline}. Use April Dunford positioning methodology. Create: positioning statement (FOR/WHO/THE/THAT/UNLIKE/OUR), messaging hierarchy (headline/subhead/3 benefits), channel mix recommendation with rationale, 8-week launch timeline, success metrics per tier. Return complete launch brief." })
+```
+
+**Step 3 — Synthesize：** ICP 定義 + 差異化定位聲明 + 競爭戰術卡 + 完整 GTM 時間線。

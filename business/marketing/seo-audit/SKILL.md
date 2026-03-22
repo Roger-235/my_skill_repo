@@ -148,3 +148,25 @@ Automatically surface seo-audit recommendations when:
 | On-Page SEO Findings | Structured table | Same format, focused on content and metadata |
 | Prioritized Action Plan | Numbered list | Ordered by impact × effort, grouped into Critical / High / Quick Wins |
 | Keyword Cannibalization Map | Table | Pages competing for same keyword with recommended canonical or redirect actions |
+
+## Multi-Agent Analysis
+
+當需要**完整 SEO 全站健診**時，三個維度同時進行，大幅縮短稽核時間。
+
+**Step 1 — 收集 context：**
+網站 URL、網站類型（SaaS/電商/部落格）、主要目標關鍵字 3-5 個、當前月流量估計
+
+**Step 2 — 同時派出：**
+
+```javascript
+Task({ subagent_type: "Explore", description: "Technical SEO audit",
+  prompt: "Conduct technical SEO audit for {url}: (1) Core Web Vitals — check PageSpeed Insights for LCP, FID/INP, CLS scores on mobile and desktop, (2) Crawlability — check robots.txt, sitemap.xml existence and structure, (3) Indexation signals — search 'site:{url}' to estimate indexed pages vs expected, (4) HTTPS and redirects — check for mixed content, www vs non-www redirect, (5) Structured data — check for Schema markup on homepage and key pages, (6) Mobile-friendliness — Google Mobile-Friendly Test. Return: findings table with Issue / Evidence / Fix / Priority." })
+
+Task({ subagent_type: "Explore", description: "Content SEO & keyword analysis",
+  prompt: "Conduct content SEO analysis for {url} targeting keywords: {target_keywords}. Check: (1) Title tags and meta descriptions for target pages — are they optimized, unique, under character limits? (2) Header hierarchy (H1-H3) on key pages, (3) Keyword cannibalization — are multiple pages targeting the same keyword? (4) Content gap — what questions do users ask about {topic} that {url} doesn't answer? Use 'People Also Ask' and related searches. (5) Internal linking — are key pages well-linked from the site? Return: on-page audit table and top 5 content gaps." })
+
+Task({ subagent_type: "Explore", description: "Competitive SEO intelligence",
+  prompt: "Research competitive SEO position for {url} vs top 3 competitors in {market}: (1) Estimate organic traffic for each (use SimilarWeb or Ahrefs public data if available), (2) Compare domain authority signals (number of referring domains, link velocity), (3) Identify keywords where competitors rank in top 3 but {url} does not, (4) Find competitor content that earns the most backlinks (skyscraper opportunities), (5) Analyze competitor site architecture for structural advantages. Return: competitive gap table and top 3 quick-win opportunities." })
+```
+
+**Step 3 — Synthesize：** SEO 健康總評分 + 技術/內容/競品三維問題優先清單（Critical/High/Quick Wins）+ 前 30/60/90 天行動路線圖。

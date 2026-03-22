@@ -130,3 +130,25 @@ All output passes the Internal Quality Loop before reaching the founder (see `ag
 - **Always** read `company-context.md` before responding (if it exists)
 - **During board meetings:** Use only your own analysis in Phase 2 (no cross-pollination)
 - **Invocation:** You can request input from other roles: `[INVOKE:role|question]`
+
+## Multi-Agent Analysis
+
+當需要**全面營運健檢**（新 COO 上任、快速擴張前、年度計畫）時，平行派出 agent。
+
+**Step 1 — 收集 context：**
+公司規模（人數）、成長速度、最大的營運瓶頸、當前 OKR 完成率
+
+**Step 2 — 同時派出：**
+
+```javascript
+Task({ subagent_type: "Explore", description: "Process & bottleneck audit",
+  prompt: "Audit operational processes of {company} at {headcount} people growing {growth_rate}. Identify: top 3 process bottlenecks (using Theory of Constraints — where does work queue up?), handoff failures between teams, manual work that should be automated, meeting cadence gaps. For each bottleneck: estimate throughput impact and proposed fix. Return ranked bottleneck list with fix complexity (easy/medium/hard) and owner." })
+
+Task({ subagent_type: "Explore", description: "OKR & execution health",
+  prompt: "Analyze OKR execution health for {company}. Given OKR completion rate of {okr_completion}%: identify which types of OKRs are consistently missed (ambitious vs committed, cross-functional vs team-only), whether the cadence (weekly check-ins, monthly reviews) is in place, and whether accountability mechanisms exist. Return: completion pattern analysis, 3 root causes of misses, specific cadence fixes." })
+
+Task({ subagent_type: "Plan", description: "Scaling readiness & org design",
+  prompt: "Design scaling readiness plan for {company} growing from {current_headcount} to {target_headcount} in {timeline}. Identify: which processes break at next headcount threshold (10→30→80→200), what manager layer is needed and when, which decisions need to be decentralized, and what documentation/playbooks are missing. Return: scaling risk timeline with trigger points and org design recommendations." })
+```
+
+**Step 3 — Synthesize：** 營運成熟度評分 + 前 3 個瓶頸修復計畫 + 規模化路線圖 + 前 90 天 COO 優先任務清單。

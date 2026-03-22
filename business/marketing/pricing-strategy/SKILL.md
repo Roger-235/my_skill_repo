@@ -319,3 +319,25 @@ All output follows the structured communication standard:
 - **ab-test-setup**: Use to A/B test price points or pricing page layouts after initial design.
 - **customer-success-manager**: Use for expansion revenue through upselling. NOT for pricing design or packaging.
 - **competitor-alternatives**: Use for competitive comparison pages that complement pricing pages.
+
+## Multi-Agent Analysis
+
+當需要**從零設計或全面重新定價**時，三個維度同時研究，避免憑感覺定價。
+
+**Step 1 — 收集 context：**
+產品名稱與類別、目標客戶（B2B/B2C）、當前定價（如有）、最大的定價挑戰
+
+**Step 2 — 同時派出：**
+
+```javascript
+Task({ subagent_type: "Explore", description: "Competitive pricing benchmarks",
+  prompt: "Research pricing of top 5 competitors to {product} in {category}: (1) For each competitor: plan names, price points, billing model (per seat/usage/flat), what's included at each tier, free trial or freemium offering, (2) Identify the dominant value metric in {category} (what does pricing scale on — seats, usage, features, outcomes?), (3) Note any recent pricing changes (increase, restructure, new tier), (4) Calculate price premium/discount vs market average for comparable tiers. Return: competitor pricing comparison table, dominant value metric, and market price range per tier." })
+
+Task({ subagent_type: "Explore", description: "Customer willingness-to-pay signals",
+  prompt: "Research customer willingness-to-pay signals for {product} in {category}: (1) G2/Capterra reviews — what do users say about pricing (fair/expensive/cheap?), (2) Reddit, Hacker News, or community discussions about pricing in {category}, (3) Churn-to-competitor patterns — are customers leaving for cheaper alternatives or paying more for premium?, (4) Feature requests related to pricing — are users asking for usage-based, annual discounts, or more tiers?, (5) NPS detractor themes — is pricing a top complaint? Return: willingness-to-pay assessment, price sensitivity signals, and packaging preferences." })
+
+Task({ subagent_type: "Plan", description: "Pricing model & tier design",
+  prompt: "Design pricing strategy for {product} targeting {target_customer} in {category}. Given competitive range {price_range} and current conversion rate {conversion_rate}%: (1) Recommend value metric (per seat / usage-based / outcome-based / flat) with rationale, (2) Design 3-tier structure (Starter/Pro/Enterprise or equivalent) with feature allocation using 'good-better-best' principle — what's locked in Starter to drive upgrades?, (3) Set price points: use 10x value rule (price = 10% of value delivered), test against Van Westendorp acceptable range, (4) Recommend billing model (monthly/annual, self-serve/sales-assisted threshold), (5) Design freemium or free trial if applicable. Return: complete pricing model with tier names, prices, feature grid, and rationale." })
+```
+
+**Step 3 — Synthesize：** 競品定價地圖 + 客戶付費意願評估 + 完整三層定價架構設計 + 定價頁面結構建議 + 定價調整的預期影響模型。

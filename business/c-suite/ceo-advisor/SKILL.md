@@ -162,3 +162,25 @@ All output passes the Internal Quality Loop before reaching the founder (see `ag
 - `references/executive_decision_framework.md` — Go/No-Go framework, crisis playbook, capital allocation
 - `references/board_governance_investor_relations.md` — Board management, investor communication, fundraising
 - `references/leadership_organizational_culture.md` — Culture development, CEO routines, succession planning
+
+## Multi-Agent Analysis
+
+當請求涵蓋**多個戰略面向同時分析**（完整策略審查、融資前準備、市場進入）時，平行派出 agent 而非逐一回答。
+
+**Step 1 — 收集 context（一次問完）：**
+公司名稱、所在階段（Pre-seed / Seed / A / B+）、當前主要挑戰（一句話）
+
+**Step 2 — 同時派出（單一回應中全部呼叫）：**
+
+```javascript
+Task({ subagent_type: "Explore", description: "Competitive landscape",
+  prompt: "Research the top 5 competitors of {company} in {market}. For each: funding, positioning, pricing, key differentiators, recent moves. Return as structured markdown table." })
+
+Task({ subagent_type: "Explore", description: "Financial benchmarks",
+  prompt: "Research benchmark metrics for {stage} stage {industry} SaaS companies: ARR growth rate, burn multiple, NRR, CAC:LTV, gross margin. Return industry medians vs top quartile." })
+
+Task({ subagent_type: "Plan", description: "Strategic options",
+  prompt: "Given company {company} at {stage} with challenge: {challenge}. Generate 3 distinct strategic options (conservative / balanced / aggressive), each with: key assumptions, 12-month milestones, risks, capital required." })
+```
+
+**Step 3 — Synthesize：** 整合成一份執行摘要，含：戰略建議 + 競爭定位 + 財務目標 + 前 90 天優先事項。

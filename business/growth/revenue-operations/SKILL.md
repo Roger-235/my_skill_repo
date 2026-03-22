@@ -275,3 +275,25 @@ Combine all three tools for a comprehensive QBR analysis.
 | [GTM Dashboard Template](assets/gtm_dashboard_template.md) | GTM efficiency dashboard for leadership review |
 | [Sample Pipeline Data](assets/sample_pipeline_data.json) | Example input for pipeline_analyzer.py |
 | [Expected Output](assets/expected_output.json) | Reference output from pipeline_analyzer.py |
+
+## Multi-Agent Analysis
+
+當需要**完整 GTM 效率健診**（季度業務回顧、融資前、新 RevOps 上任）時，平行派出 agent。
+
+**Step 1 — 收集 context：**
+當前 ARR、本季管線金額、銷售代表人數、本季預測 vs 實際達成率
+
+**Step 2 — 同時派出：**
+
+```javascript
+Task({ subagent_type: "Explore", description: "Pipeline coverage & deal health",
+  prompt: "Analyze sales pipeline health for {company}. Pipeline: {pipeline_amount} covering {quota_target} target ({coverage}x). Breakdown: (1) Coverage ratio by stage (early/mid/late), (2) Deals aging beyond {avg_cycle_days}-day average cycle — which need intervention?, (3) Concentration risk — any single deal >15% of quarter?, (4) Stage conversion rates vs benchmarks (SDR→SAL 60%, SAL→SQL 50%, SQL→Close 25%), (5) Rep-level pipeline distribution (is pipeline concentrated on 2-3 reps?). Return: pipeline health score, risk flags, and intervention list." })
+
+Task({ subagent_type: "Explore", description: "Forecast accuracy & GTM efficiency",
+  prompt: "Analyze forecast accuracy and GTM efficiency for {company}. Given {periods} of forecast history: (1) Calculate MAPE (Mean Absolute Percentage Error) — benchmark <15%, (2) Identify systematic bias (consistently over- or under-forecasting?), (3) Calculate Magic Number ({net_new_arr} ÷ {s_and_m_spend_prior_quarter}) — benchmark >0.75, (4) Calculate CAC ({s_and_m_spend} ÷ {new_customers}), CAC payback period, and LTV:CAC — benchmark >3:1, (5) Revenue per FTE trend. Return: efficiency scorecard with benchmark comparison and top 2 improvement levers per metric." })
+
+Task({ subagent_type: "Plan", description: "RevOps improvement roadmap",
+  prompt: "Design RevOps improvement roadmap for {company} based on: pipeline coverage {coverage}x, forecast accuracy {mape}% MAPE, Magic Number {magic_number}. Prioritize: (1) Biggest efficiency leak (pipeline quality vs forecast discipline vs GTM spend allocation), (2) Data hygiene fixes needed in CRM, (3) Process improvements with highest ROI (weekly pipeline review cadence, forecast commit culture, territory redesign), (4) Technology gaps (what tools would most improve visibility). Return: 90-day RevOps roadmap with quick wins (week 1-2), structural fixes (month 1-2), and strategic changes (month 2-3)." })
+```
+
+**Step 3 — Synthesize：** GTM 效率綜合評分 + 管線風險清單 + 預測精準度改善計畫 + 90 天 RevOps 路線圖（按 ROI 排序）。

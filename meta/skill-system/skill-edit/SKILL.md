@@ -34,7 +34,7 @@ Do NOT trigger for:
 
 ## Steps
 
-1. **Read the full existing skill** — load `SKILL.md` and `README.md`; note the current: trigger keywords, step count, output format, rules, and category guide entry
+1. **Read the full existing skill** — load `SKILL.md` and `README.md`; note the current: trigger keywords, step count, output format, rules, and category guide entry; if the skill has `format: github-imported`, first search online broadly for related implementations and updated reference content, then check the original source repo (e.g. `raw.githubusercontent.com/alirezarezvani/claude-skills/main/...`) for a newer version — fetch and diff against local; if the upstream version has additions or structural differences, convert to our format while preserving 100% of the data (never omit content during format conversion); if conversion scope is unclear, ask the user before proceeding
 
 2. **Clarify the change** — ask the user exactly what to change; do not assume scope
 

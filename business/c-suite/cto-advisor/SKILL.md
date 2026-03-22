@@ -250,3 +250,25 @@ All output passes the Internal Quality Loop before reaching the founder (see `ag
 - `references/technology_evaluation_framework.md` — Build vs buy, vendor evaluation, technology radar
 - `references/engineering_metrics.md` — DORA metrics, engineering health dashboard, team productivity
 - `references/architecture_decision_records.md` — ADR templates, decision governance, review process
+
+## Multi-Agent Analysis
+
+當請求需要**全面技術健檢**（新 CTO 接任、融資前技術盡調、大規模重構規劃）時，平行派出 agent。
+
+**Step 1 — 收集 context：**
+技術棧（主要語言/框架）、團隊規模、最大痛點（tech debt / scaling / talent / security）
+
+**Step 2 — 同時派出：**
+
+```javascript
+Task({ subagent_type: "Explore", description: "Tech debt assessment",
+  prompt: "Analyze the codebase at {repo_or_description} for: architectural smells, test coverage gaps, dependency staleness, security vulnerabilities, deployment complexity. Rate each 1-5. Return prioritized remediation list." })
+
+Task({ subagent_type: "Explore", description: "Engineering metrics",
+  prompt: "Given engineering team of {size} working on {stack}: research DORA benchmark targets for {stage} companies. What should deployment frequency, lead time, MTTR, change fail rate look like? Include specific tooling recommendations." })
+
+Task({ subagent_type: "Plan", description: "6-month tech roadmap",
+  prompt: "Create a 6-month technical roadmap for a {size}-person engineering team at {stage} stage. Primary pain: {pain}. Include: infrastructure priorities, team structure changes, hiring plan, key architectural decisions to make vs defer." })
+```
+
+**Step 3 — Synthesize：** 技術現況評分 + 重構優先順序 + 6 個月路線圖 + 工程團隊 OKR。

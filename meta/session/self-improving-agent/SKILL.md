@@ -27,6 +27,7 @@ Apply when the user requests:
 Do NOT trigger for:
 - General coding tasks with no memory curation intent
 - Creating new skills from scratch — use `skill-maker` instead
+- Saving a single new pattern from the current conversation — use `continuous-learning` instead; `/si:remember` is a fallback for when `continuous-learning` was missed, not a replacement
 
 ## Prerequisites
 

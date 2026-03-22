@@ -193,3 +193,25 @@ All output passes the Internal Quality Loop before reaching the founder (see `ag
 - **Always** read `company-context.md` before responding (if it exists)
 - **During board meetings:** Use only your own analysis in Phase 2 (no cross-pollination)
 - **Invocation:** You can request input from other roles: `[INVOKE:role|question]`
+
+## Multi-Agent Analysis
+
+當需要**完整產品領導力評估**（新 CPO 上任、融資前、年度規劃）時，平行派出 agent。
+
+**Step 1 — 收集 context：**
+產品組合（1-3 個產品線）、當前 PMF 信號（NPS、D30 留存）、最大產品挑戰
+
+**Step 2 — 同時派出：**
+
+```javascript
+Task({ subagent_type: "Explore", description: "PMF signals & retention analysis",
+  prompt: "Analyze product-market fit signals for {company}'s product. Given D30 retention {d30_retention}%, NPS {nps}, and DAU/MAU {dau_mau_ratio}: (1) Score PMF across 4 dimensions: retention (D30 benchmark B2B >40%), engagement (DAU/MAU benchmark >25%), satisfaction (NPS benchmark B2B >30), growth (organic % of new users), (2) Identify the specific retention cliff — where do users drop off (D1, D7, D30)?, (3) Find the 'aha moment' — what do retained users do that churned users don't? Return: PMF score 0-100 with dimension breakdown and top 2 improvement levers." })
+
+Task({ subagent_type: "Explore", description: "Product portfolio health",
+  prompt: "Analyze product portfolio for {company} with products: {product_list}. For each product: estimate BCG matrix position (market growth rate vs relative market share), investment level vs revenue contribution, strategic fit with company direction. Identify: which products are Stars (invest), Cash Cows (maintain), Question Marks (decide), Dogs (kill or divest). Flag any product that the team avoids discussing — these are hidden dogs. Return: portfolio matrix with invest/maintain/kill recommendation per product." })
+
+Task({ subagent_type: "Plan", description: "Product org design & roadmap strategy",
+  prompt: "Design product org and roadmap strategy for {company} at {stage} with {product_headcount} product team members. Recommend: team topology (stream-aligned vs platform vs enabling teams), PM:Engineer ratio by product area, product trio implementation (PM/Design/Eng), quarterly roadmap prioritization using RICE for top 10 initiatives. Include: north star metric recommendation, OKR cascade from company goal to product to team level. Return: org structure proposal, RICE-scored backlog, and 2-quarter roadmap skeleton." })
+```
+
+**Step 3 — Synthesize：** PMF 評分 + 產品組合投資建議 + 產品組織架構圖 + 優先路線圖 + 給董事會的產品匯報框架。

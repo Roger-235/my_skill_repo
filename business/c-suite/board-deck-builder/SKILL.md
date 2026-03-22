@@ -177,3 +177,25 @@ Never bury it. Boards find out eventually. Finding out late makes it worse.
 ## References
 - `references/deck-frameworks.md` — SaaS board pack format, Sequoia structure, investor tailoring
 - `templates/board-deck-template.md` — fill-in template for complete board decks
+
+## Multi-Agent Analysis
+
+當需要**完整準備一份董事會或投資人更新包**時，平行派出 agent。
+
+**Step 1 — 收集 context：**
+公司名稱、季度、最重要的 3 個業務指標、本季最大的好消息和壞消息
+
+**Step 2 — 同時派出：**
+
+```javascript
+Task({ subagent_type: "Explore", description: "Financial & operational metrics pull",
+  prompt: "For {company} preparing a {quarterly|monthly} board update: pull and organize all financial metrics (ARR, MRR, burn, runway, gross margin), operational metrics (NRR, churn, CAC payback, LTV:CAC), and headcount data from available data sources. Flag any metrics missing or requiring manual input. Return organized by board deck section with data quality status." })
+
+Task({ subagent_type: "Explore", description: "Market and competitive context",
+  prompt: "Research current market context for {company} in {market}: recent competitor announcements, funding rounds, pricing changes, and market trends that are material to a board update. Also identify 2-3 macro trends the board will likely ask about. Return as bullet points grouped by strategic relevance." })
+
+Task({ subagent_type: "Plan", description: "Board narrative and structure",
+  prompt: "Design the narrative arc for {company} Q{quarter} board deck. Business headline: {headline}. Key good news: {good_news}. Key bad news: {bad_news}. Create: executive summary 3-sentence script, slide order recommendation, bad news framing using 4-Act Structure, key asks for the board. Return as a structured outline with talking points per slide." })
+```
+
+**Step 3 — Synthesize：** 完整 board pack 大綱 + 每張投影片標題 + 需要補充的數據清單 + 壞消息框架腳本。

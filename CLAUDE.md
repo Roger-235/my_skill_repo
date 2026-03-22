@@ -65,28 +65,81 @@ metadata:
 Skills with `format: github-imported` in frontmatter are exempt from S5–S13 (body section structure). They must still satisfy S1–S4 (frontmatter), S14 (README.md), S15 (≤ 1000 lines), and S16 (no padding). Use this only for skills imported from external sources that have complete, working body content in a different structure.
 
 ### Constraints
-- SKILL.md must stay under 1000 lines; move reference content to subdirectory files if needed
+- SKILL.md must stay under 1000 lines
+- **Progressive Disclosure (required):** any section >50 lines of pure reference material (tables, API specs, extended examples, lookup data) must be moved to `ref/<topic>.md` and referenced by path — never inline bulk reference content in SKILL.md
 - Every sentence must earn its place — no padding, no restatement, no filler phrases
 - Folder name must exactly match `name` field in frontmatter
 - `metadata.category` must match the parent category folder
 
+### Skill Folder Structure (with Progressive Disclosure)
+
+```
+<skill-name>/
+├── SKILL.md        ← core actionable content only
+├── README.md       ← Chinese documentation
+└── ref/            ← optional; created when any section exceeds 50 lines of reference material
+    ├── examples.md
+    ├── security-rules.md
+    └── <topic>.md
+```
+
+Reference files in `ref/` use relative paths: `[<topic>.md](ref/<topic>.md)`
+
 ## Guide Skills
 
 Every category must have exactly one `<category>-guide` skill. It routes users to the correct skill — never performs work itself. Required sections: `## Routing Table` and `## Skill Chains` (if ≥ 3 skills). When a skill is added, renamed, or removed, update the category guide's Routing Table.
+
+## Pre-Edit Research (Required)
+
+Before creating any skill or reference file, or modifying a `format: github-imported` skill:
+
+1. **Search online broadly** — use WebSearch and WebFetch to find authoritative sources: existing implementations, official documentation, industry standards, or any reference material that will end up in `ref/` files; do not generate domain-specific facts from scratch when real sources exist
+2. **Check the original repo** (for `format: github-imported` skills) — fetch the current version from the source repo (e.g. `raw.githubusercontent.com/alirezarezvani/claude-skills/main/...`) to see if there is a newer version; diff local vs. upstream before proposing changes
+3. **Fetch reference files first** — if `references/` or `assets/` files are missing, attempt to download them from the original source before generating; only generate from scratch if the file genuinely does not exist upstream
+
+**Why:** AI-generated reference content is inferior to authoritative sources. Fetched content is up-to-date, credible, and avoids duplication with upstream.
 
 ## Meta Skill Pipeline
 
 When creating or modifying skills, these meta skills run in sequence:
 
 ```
-skill-maker  →  skill-audit  →  skill-readme-sync
-   (create)       (auto)           (auto after edit)
+skill-maker  →  skill-audit  →  skill-readme-sync  →  skill-index-sync
+   (create)       (auto)           (auto)                  (auto)
 
-skill-edit   →  skill-readme-sync  →  skill-audit
-  (modify)          (auto)               (auto)
+skill-edit   →  skill-readme-sync  →  skill-audit  →  skill-index-sync
+  (modify)          (auto)               (auto)            (if needed)
 ```
 
-`pre-output-review` auto-triggers before every substantive output.
+`pre-output-review` auto-triggers before every response the user will act on or read.
+
+### When to use `skill-edit` vs direct file edit
+
+**Use `skill-edit`** (required) when:
+- Trigger keywords change → must update category guide Routing Table
+- Skill is renamed, moved, or deleted → must update index files
+- Category changes → must move folder and update both guides
+
+**Direct edit is fine** when:
+- Fixing a typo, improving wording, adjusting a description
+- Adding/fixing a section that has no index or routing impact
+- The only file changing is the SKILL.md body (no trigger or name change)
+
+After any direct edit, manually run `skill-audit` to confirm no regressions.
+
+### Security auditor boundary
+
+| Use case | Skill |
+|----------|-------|
+| Audit a skill you are creating | `skill-audit` (invokes `security-audit`) |
+| Scan a third-party skill before installing | `skill-security-auditor` (static script scan) |
+
+### Learning pipeline
+
+| Use case | Skill |
+|----------|-------|
+| Save a new pattern from this conversation | `continuous-learning` |
+| Review + graduate existing memories to rules | `self-improving-agent` (`/si:review`, `/si:promote`) |
 
 ## Category `_index.md` Files
 

@@ -133,3 +133,25 @@ All output passes the Internal Quality Loop before reaching the founder (see `ag
 - **Always** read `company-context.md` before responding (if it exists)
 - **During board meetings:** Use only your own analysis in Phase 2 (no cross-pollination)
 - **Invocation:** You can request input from other roles: `[INVOKE:role|question]`
+
+## Multi-Agent Analysis
+
+當需要**全面財務健檢**（新 CFO 上任、融資前評估、年度計畫）時，平行派出 agent。
+
+**Step 1 — 收集 context：**
+公司階段、ARR、月度淨燒錢額、最近融資時間、最大財務壓力點
+
+**Step 2 — 同時派出：**
+
+```javascript
+Task({ subagent_type: "Explore", description: "Burn & runway analysis",
+  prompt: "Analyze burn rate and runway for {company} at {stage}: current ARR {arr}, monthly net burn {burn}. Calculate: months of runway at current burn, burn multiple (net burn / net new ARR), Rule of 40 score. Model three scenarios (base/bull/bear) with hiring plan impact. Flag any burn multiple > 2x or runway < 12 months. Return structured analysis with decision triggers." })
+
+Task({ subagent_type: "Explore", description: "Unit economics deep-dive",
+  prompt: "Analyze unit economics for {company}: calculate LTV by cohort (not blended), CAC by acquisition channel, payback period per channel, and NDR trend over last 4 quarters. Identify: best-performing cohorts, channels with deteriorating CAC, any LTV:CAC < 3x. Return comparison table with trend arrows and recommended actions." })
+
+Task({ subagent_type: "Plan", description: "Financial strategy roadmap",
+  prompt: "Design 12-month financial strategy for {company} at {stage} with ARR {arr} and runway {runway_months} months. Address: fundraising timing recommendation (raise now vs. extend runway), top 3 cost optimization levers, pricing strategy impact on ARR, key financial milestones needed to support next round. Return prioritized action plan with decision points and timeline." })
+```
+
+**Step 3 — Synthesize：** 財務健康評分 + 紅旗清單 + 12 個月財務路線圖 + 融資時機建議。

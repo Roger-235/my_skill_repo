@@ -349,6 +349,23 @@ Always deliver:
 3. **Comments** explaining every major section and technique used
 4. **Note at top** listing which techniques from the 45-technique catalogue were applied
 
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Techniques used: parallax-depth, scroll-trigger, fade-entrance -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <style>/* depth layers, motion, responsive */</style>
+</head>
+<body>
+  <!-- Hero: depth layers z-index 1-5 -->
+  <section class="hero"> ... </section>
+  <script>/* GSAP ScrollTrigger animations */</script>
+</body>
+</html>
+```
+
 ---
 
 ## Validation

@@ -27,6 +27,8 @@ Do NOT trigger for:
 - One-time bug fixes that are unlikely to recur
 - Information already documented in CLAUDE.md
 - Code snippets or implementation details (those belong in the codebase, not memory)
+- Reviewing or curating existing memories — use `self-improving-agent` (`/si:review`)
+- Graduating an existing memory to CLAUDE.md or `.claude/rules/` — use `self-improving-agent` (`/si:promote`)
 
 ## Prerequisites
 

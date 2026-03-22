@@ -100,3 +100,25 @@ international expansion, market entry, localization, go-to-market, GTM, regional
 ## Resources
 - `references/market-entry-playbook.md` — detailed entry playbook by market type
 - `references/regional-guide.md` — specific considerations for key regions (EU, US, APAC, LATAM)
+
+## Multi-Agent Analysis
+
+當需要**同時評估多個目標市場**，選出最佳進入順序時，平行派出 agent——每個市場一個 agent。
+
+**Step 1 — 收集 context：**
+你的產品類別、當前主要市場、想評估的 2-3 個目標新市場、可用的國際化預算範圍
+
+**Step 2 — 同時派出（每個目標市場一個 agent）：**
+
+```javascript
+Task({ subagent_type: "Explore", description: "Market 1 assessment",
+  prompt: "Assess {market_1} as expansion target for {product} in {category}. Evaluate 5 factors: (1) Market size — TAM estimate for {category} in {market_1}, willingness-to-pay signals vs home market, (2) Competitive intensity — are global leaders present? any strong local incumbents? (3) Regulatory complexity — data privacy laws (GDPR if EU), payment requirements, entity setup requirements, timeline to legally operate, (4) Cultural/language distance — English sufficiency? localization scope?, (5) Existing traction — any inbound leads, existing customers, or partner interest from {market_1}? Score each factor 1-5. Return: weighted score, entry readiness, top 2 risks, recommended entry mode (direct/partner/PLG)." })
+
+Task({ subagent_type: "Explore", description: "Market 2 assessment",
+  prompt: "Assess {market_2} as expansion target for {product} in {category}. Evaluate 5 factors: (1) Market size — TAM estimate for {category} in {market_2}, willingness-to-pay signals vs home market, (2) Competitive intensity — are global leaders present? any strong local incumbents? (3) Regulatory complexity — data privacy laws, payment requirements, entity setup requirements, timeline to legally operate, (4) Cultural/language distance — English sufficiency? localization scope?, (5) Existing traction — any inbound leads, existing customers, or partner interest from {market_2}? Score each factor 1-5. Return: weighted score, entry readiness, top 2 risks, recommended entry mode (direct/partner/PLG)." })
+
+Task({ subagent_type: "Plan", description: "Market entry sequence & localization plan",
+  prompt: "Design international expansion sequence for {product} targeting {market_1} and {market_2}. Based on market assessments, recommend: (1) Which market to enter first and why, (2) Entry mode per market (PLG self-serve / channel partner / direct sales hire / reseller), (3) MVP localization scope — what must be localized before launch vs can wait, (4) First 6-month GTM plan for lead market: hire sequence, budget allocation, success metrics, (5) Stage-gate criteria — what metrics prove product-market fit before investing in second market. Return: phased expansion roadmap with go/no-go criteria." })
+```
+
+**Step 3 — Synthesize：** 市場評分排名 + 進入順序建議（含理由）+ 第一個市場的 6 個月 GTM 計畫 + 本地化優先清單。

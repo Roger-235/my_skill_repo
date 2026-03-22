@@ -67,11 +67,13 @@ Do NOT trigger for:
 | S9 | `## Output Format` | Contains a fenced code block; includes file path line — **skip if `format: github-imported`** |
 | S10 | `## Rules / ### Must` | All rules are testable (no "be clear", "be thorough") — **skip if `format: github-imported`** |
 | S11 | `## Rules / ### Never` | Present with at least one rule — **skip if `format: github-imported`** |
-| S12 | `## Examples` | Good Example is complete, not a fragment — **skip if `format: github-imported`** |
-| S13 | Bad Example | Present with "Why this is bad" explanation — **skip if `format: github-imported`** |
+| S12 | `## Examples` | Good Example is complete, not a fragment — OR references `${CLAUDE_SKILL_DIR}/ref/examples.md` — **skip if `format: github-imported`** |
+| S13 | Bad Example | Present with "Why this is bad" explanation — OR included in referenced `ref/examples.md` — **skip if `format: github-imported`** |
 | S14 | `README.md` | Chinese README exists in the same folder |
 | S15 | File size | SKILL.md ≤ 1000 lines |
 | S16 | No padding | No restatements, filler phrases, or repeated points — every sentence must add new information |
+| S17 | `## Gotchas` | Recommended (not required) for skills with complex triggers or known failure modes; flag if absent when the skill has ≥ 3 edge-case Notes or known misfire patterns |
+| S18 | Progressive Disclosure | No section contains >50 lines of pure reference material (tables, API specs, extended examples, lookup data) that belongs in `ref/` — if found, flag the section name and line count — **skip if `format: github-imported`** |
 
 ## Security Checklist
 

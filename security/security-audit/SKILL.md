@@ -17,15 +17,16 @@ Detect and report security vulnerabilities in any file or code by running a stru
 ## Trigger
 
 Apply when:
-- User requests a security audit, vulnerability scan, or OWASP check
-- User asks to check for hardcoded secrets or injection issues
+- "security audit", "vulnerability scan", "OWASP check", "find security issues"
+- "check for injection", "check credentials", "scan for secrets", "hardcoded secrets"
+- "資安審查", "找資安漏洞", "檢查注入", "確認沒有 hardcode", "OWASP 檢查"
 - `skill-audit` invokes this skill for its security phase
-- 資安審查、找資安漏洞、檢查注入、確認沒有 hardcode、OWASP 檢查
 
 Do NOT trigger for:
 - General code quality review without a security focus — use `code-quality`
 - Bug fixing unrelated to security — use `debug`
 - Style or design reviews
+- Pre-installation scan of a third-party skill for malicious code / supply-chain issues — use `skill-security-auditor`
 
 ## Prerequisites
 
@@ -175,3 +176,4 @@ doesn't need a confirmation since it's just a notification.
 ```
 
 > Why this is bad: "Probably just a test value" is not a security verdict — any literal token in source code is a Critical finding regardless of intent. "Just a notification" does not exempt an irreversible side effect from LLM06. No check IDs, no severity ratings, no evidence quoted, no fixes provided. PASS/FAIL verdict is absent. No re-audit loop would be triggered because no structured findings exist.
+

@@ -1,6 +1,6 @@
 ---
 name: codebase-onboarding
-description: "Codebase Onboarding"
+description: "Analyzes a codebase and generates audience-aware onboarding documentation for engineers, tech leads, and contractors. Trigger when: onboard new engineer, create onboarding docs, codebase overview, generate README for developers, explain codebase to new team member, onboarding packet, document architecture for contractors. Do NOT trigger for architecture design decisions (use senior-architect) or live code review (use code-review)."
 metadata:
   category: dev
   version: "1.0"

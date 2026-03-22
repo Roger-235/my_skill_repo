@@ -12,3 +12,5 @@
 | env-secrets-manager | 環境變數與密鑰管理：安全存取、輪換策略 | env vars, secrets management, environment variables |
 | pr-review-expert | 專家級 PR 審查：架構、效能、安全性深度分析 | expert PR review, deep code review, senior review |
 | tech-debt-tracker | 掃描技術債、評分嚴重性、生成優先修復計畫 | tech debt, code health, debt scoring, cleanup sprint |
+| code-convention-auditor | 掃描代碼對照命名、格式、匯入規範，輸出中文違規報告 | 檢查代碼規範, 命名規範, 代碼風格, check code conventions, convention audit |
+| unified-quality-auditor | 統一品質閘道：自動偵測目標類型，同時執行 skill 診斷與代碼規範審查 | unified quality audit, quality gate, check skill and code, 統一品質審查, 全面品質掃描 |

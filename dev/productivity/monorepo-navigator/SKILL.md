@@ -1,6 +1,6 @@
 ---
 name: monorepo-navigator
-description: "Monorepo Navigator"
+description: "Navigates, manages, and optimizes monorepos using Turborepo, Nx, pnpm workspaces, and Changesets with cross-package impact analysis, selective builds, and remote caching. Trigger when: monorepo setup, Turborepo, Nx workspace, pnpm workspaces, Lerna, cross-package impact, selective build, remote cache, migrate multi-repo to monorepo. Do NOT trigger for single-app projects or general dependency management."
 metadata:
   category: dev
   version: "1.0"
@@ -100,12 +100,6 @@ turbo run build test
 ```
 
 > Why this is bad: Rebuilds all 12 packages even when only 1 changed. Wastes CI minutes. Does not use Turborepo's core capability. Remote cache is also bypassed for unchanged packages.
-
-## Overview
-
-Navigate, manage, and optimize monorepos. Covers Turborepo, Nx, pnpm workspaces, and Lerna. Enables cross-package impact analysis, selective builds/tests on affected packages only, remote caching, dependency graph visualization, and structured migrations from multi-repo to monorepo. Includes Claude Code configuration for workspace-aware development.
-
-Navigate, manage, and optimize monorepos. Covers Turborepo, Nx, pnpm workspaces, and Lerna. Enables cross-package impact analysis, selective builds/tests on affected packages only, remote caching, dependency graph visualization, and structured migrations from multi-repo to monorepo. Includes Claude Code configuration for workspace-aware development.
 
 ---
 

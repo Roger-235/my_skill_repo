@@ -229,3 +229,25 @@ See `references/examples/sample_growth_okrs.json` for a complete example.
 
 - **Senior PM** (`project-management/senior-pm/`) — Portfolio management and risk analysis inform strategic planning
 - **Competitive Teardown** (`product-team/competitive-teardown/`) — Competitive intelligence feeds product strategy
+
+## Multi-Agent Analysis
+
+當需要**季度策略規劃全貌**（新產品方向、Q 計畫、OKR 設定季）時，平行派出 agent。
+
+**Step 1 — 收集 context：**
+公司階段、當前策略重點（growth/retention/revenue/innovation/operational）、最大產品挑戰、團隊結構
+
+**Step 2 — 同時派出：**
+
+```javascript
+Task({ subagent_type: "Explore", description: "Competitive landscape analysis",
+  prompt: "Research competitive landscape for {company}'s product in {market}: identify top 3 direct competitors, 2 adjacent threats. For each: recent product announcements, pricing changes, job postings (roadmap signals), G2/Capterra review trends, and estimated market share shift. Return competitive gap matrix showing where {company} leads and where it lags." })
+
+Task({ subagent_type: "Explore", description: "Product signals & usage patterns",
+  prompt: "Analyze product health signals for {company} using available data: DAU/MAU ratio trend, feature adoption rates by cohort, NPS and CSAT trend, support ticket themes (top 5 pain points), churned customer exit reasons if available. Return ranked list of product opportunities with evidence and estimated user impact." })
+
+Task({ subagent_type: "Plan", description: "OKR cascade & quarterly roadmap",
+  prompt: "Design Q{quarter} product strategy for {company} using {strategy} focus. Teams: {teams}. Company target: {goal}. Generate: company-level OKRs (3 max), product-level OKRs with alignment scores, team-level OKR breakdown, top 5 roadmap bets with rationale. Ensure vertical alignment > 90% and horizontal alignment > 75%. Return OKR cascade with alignment scoring." })
+```
+
+**Step 3 — Synthesize：** 競爭差距評估 + 產品機會排名 + 完整 OKR 階層 + 季度優先順序建議。

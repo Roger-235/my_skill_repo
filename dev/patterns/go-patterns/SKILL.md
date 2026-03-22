@@ -85,15 +85,12 @@ if err != nil {
 
 ## Examples
 
+Full annotated examples: [ref/examples.md](ref/examples.md)
+
 ### Good Example
 
 ```go
-// Consumer-side interface, concrete return, error wrapped with context,
-// goroutine cancelled via context
-type Reader interface {
-    Read(ctx context.Context) ([]byte, error)
-}
-
+// Consumer-side interface; error wrapped with context; goroutine exits on ctx.Done()
 func FetchData(ctx context.Context, r Reader) (*Response, error) {
     data, err := r.Read(ctx)
     if err != nil {
@@ -101,51 +98,18 @@ func FetchData(ctx context.Context, r Reader) (*Response, error) {
     }
     return parseResponse(data), nil
 }
-
-func startWorker(ctx context.Context, wg *sync.WaitGroup, jobs <-chan Job) {
-    defer wg.Done()
-    for {
-        select {
-        case <-ctx.Done():
-            return
-        case job, ok := <-jobs:
-            if !ok {
-                return
-            }
-            process(job)
-        }
-    }
-}
 ```
-
-Why this is good: interface defined at the consumer, concrete struct returned, error wrapped with `%w`, goroutine exits cleanly on context cancellation or channel close.
 
 ### Bad Example
 
 ```go
-// Large interface defined next to its only implementation,
-// errors discarded, goroutine with no exit path
-type DataService interface {
-    Read() ([]byte, error)
-    Write([]byte) error
-    Delete(id int) error
-    List() ([]Item, error)
-    Update(Item) error
-    Ping() error
-    Close() error
-    Stats() Stats
-    Reset() error
-    Migrate() error
-}
+// 10-method interface beside its only impl; error discarded; goroutine loops forever
+type DataService interface { Read() ([]byte, error); Write([]byte) error /* ... 8 more */ }
 
 func processAll() {
-    result, _ := fetchData()   // error silently discarded
-    go func() {
-        for {                  // no exit condition
-            doWork(result)
-        }
-    }()
+    result, _ := fetchData() // _ silently drops error
+    go func() { for { doWork(result) } }() // no exit condition
 }
 ```
 
-Why this is bad: the 10-method interface is defined beside its only implementation (no abstraction benefit), `_` silently drops the error, and the goroutine spins forever with no cancellation path.
+> Why this is bad: interface defined at the producer (no abstraction benefit), `_` silently discards the error, goroutine has no cancellation path.

@@ -35,7 +35,7 @@ See [`_index.md`](_index.md) for the full cross-category index, or per-category:
 | Category | Subcategories | `_index.md` |
 |----------|--------------|-------------|
 | dev | quality · patterns · testing · infra · tools · agents · architecture · api · frontend · backend · data-ml · workspace · productivity · release | [dev/_index.md](dev/_index.md) |
-| meta | skill-system (skill-design, skill-maker, skill-edit, skill-audit, skill-readme-sync, skill-index-sync, skill-library-lint, skill-security-auditor, skill-tester) · session (task-planner, checkpoint-recovery, continuous-learning, token-optimizer, pre-output-review, self-improving-agent) | [meta/_index.md](meta/_index.md) |
+| meta | skill-system (skill-design, skill-maker, skill-edit, skill-audit, skill-readme-sync, skill-index-sync, skill-library-lint, skill-security-auditor, skill-tester, skill-web-importer) · session (task-planner, checkpoint-recovery, continuous-learning, token-optimizer, pre-output-review, self-improving-agent, careful, freeze, retro) | [meta/_index.md](meta/_index.md) |
 | business | c-suite (28) · marketing (43) · product (13) · finance (2) · compliance (12) · project-mgmt (6) · growth (4) | [business/_index.md](business/_index.md) |
 | data | — | [data/_index.md](data/_index.md) · db-schema, financial-modeling, market-research |
 | ops | — | [ops/_index.md](ops/_index.md) · ci-cd-pipeline, deploy-ops |
@@ -109,6 +109,9 @@ skill-maker  →  skill-audit  →  skill-readme-sync  →  skill-index-sync
 
 skill-edit   →  skill-readme-sync  →  skill-audit  →  skill-index-sync
   (modify)          (auto)               (auto)            (if needed)
+
+skill-web-importer  →  skill-maker  →  skill-audit  →  skill-readme-sync  →  skill-index-sync
+  (web import gate)     (create)        (auto)             (auto)                  (auto)
 ```
 
 `pre-output-review` auto-triggers before every response the user will act on or read.
@@ -133,6 +136,7 @@ After any direct edit, manually run `skill-audit` to confirm no regressions.
 |----------|-------|
 | Audit a skill you are creating | `skill-audit` (invokes `security-audit`) |
 | Scan a third-party skill before installing | `skill-security-auditor` (static script scan) |
+| Import / adapt a skill found on the web | `skill-web-importer` (mandatory pre-creation gate — run before skill-maker) |
 
 ### Learning pipeline
 
@@ -144,3 +148,69 @@ After any direct edit, manually run `skill-audit` to confirm no regressions.
 ## Category `_index.md` Files
 
 Each category has a `_index.md` with a compact table (skill name · one-line description · trigger keywords). Update when adding, renaming, or removing a skill in that category. Also update the root `_index.md` if the skill count changes.
+
+## Context Engineering Rules
+
+### CLAUDE.md Pruning Principle (for target projects)
+
+Every line in a deployed CLAUDE.md must pass this test:
+> **"Would removing this line cause Claude to make a mistake?"**
+> If no → delete it. If yes → keep it.
+
+Do not add length limits — prune by value, not by count. Common lines to cut:
+- Things Claude already knows from reading the code
+- Standard conventions the language/framework already enforces
+- Explanations and tutorials (link instead)
+- File-by-file descriptions of the codebase
+
+### `@` Import Syntax
+
+Reference external files instead of duplicating content:
+```markdown
+See @.claude/skill/dev/_index.md for available dev skills.
+Git workflow: @docs/git-instructions.md
+```
+This keeps CLAUDE.md lean while making full content available just-in-time.
+
+### Hooks vs Instructions
+
+| Mechanism | Enforcement | Use for |
+|-----------|-------------|---------|
+| CLAUDE.md instruction | ~70% (advisory) | Preferences, style guidelines |
+| PreToolUse hook | 100% (deterministic) | Critical rules: block dangerous commands, enforce secret scanning |
+| PostToolUse hook | 100% (deterministic) | Automatic linting, test runs after edits |
+
+Critical security rules (block `rm -rf`, detect secrets, etc.) **must** be hooks, not CLAUDE.md instructions. See `hooks/` for deployable hook scripts.
+
+### `disable-model-invocation: true`
+
+Add this frontmatter flag to skills with significant side effects that must only run when explicitly invoked. Prevents accidental auto-triggering from keyword matches.
+
+Apply to: `standup-notes`, `project-bootstrap`, `canary`, `retro`, `document-release`, `spec-writer`.
+
+### Subagent Pattern for Investigation
+
+For tasks that read many files (codebase exploration, security review, dead code scan), delegate to a subagent so the main context stays clean:
+```
+"Use a subagent to investigate how authentication handles token refresh."
+```
+Subagent reads files, returns a 1–2K token summary — main context untouched.
+Agent definitions for deployment live in `agents/`. See `agents/README.md`.
+
+### Deployed Project Structure
+
+A project using this skill library should have:
+```
+.claude/
+├── CLAUDE.md          ← lean project rules + @ imports
+├── skill/             ← copy from this repo's categories
+│   ├── dev/
+│   ├── meta/
+│   └── ...
+├── agents/            ← copy from this repo's agents/
+│   ├── security-reviewer.md
+│   ├── code-auditor.md
+│   └── researcher.md
+└── settings.json      ← hooks (copy from hooks/settings.json)
+```
+See `agents/deployment-template.md` for the full CLAUDE.md starter template.

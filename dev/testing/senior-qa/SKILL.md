@@ -37,11 +37,37 @@ Do NOT trigger for:
 
 ## Steps
 
-1. **Identify the test task** — determine whether the request is: unit test generation, coverage analysis, or E2E test scaffolding
-2. **Run the appropriate script** — use `test_suite_generator.py` for component test stubs, `coverage_analyzer.py` for gap analysis, or `e2e_test_scaffolder.py` for Playwright E2E tests
-3. **Review and customize generated tests** — generated stubs include `describe` blocks and basic render/interaction tests; add business-specific assertions
-4. **Run tests and check coverage** — run `npm test -- --coverage` and verify thresholds with `coverage_analyzer.py --threshold 80`
-5. **Add to CI pipeline** — include coverage enforcement and Playwright E2E in `.github/workflows/`
+1. **Select mode** — determine which mode applies:
+
+   | Mode | When to use | Scope |
+   |------|------------|-------|
+   | **Diff-aware** (default on feature branches) | After a PR or focused change | Auto-detect changed files via `git diff`; test only affected components/routes |
+   | **Full** | Full regression suite | All components and routes |
+   | **Quick** | Smoke test | Top-level render + navigation only |
+
+   For diff-aware mode, run: `git diff main...HEAD --name-only` and scope test generation to changed files only.
+
+2. **Identify the test task** — determine whether the request is: unit test generation, coverage analysis, or E2E test scaffolding
+3. **Run the appropriate script** — use `test_suite_generator.py` for component test stubs, `coverage_analyzer.py` for gap analysis, or `e2e_test_scaffolder.py` for Playwright E2E tests
+4. **Review and customize generated tests** — generated stubs include `describe` blocks and basic render/interaction tests; add business-specific assertions
+5. **Run tests and compute health score** — run `npm test -- --coverage` and compute the weighted health score:
+
+   | Category | Weight | Score deductions |
+   |----------|--------|-----------------|
+   | Console errors | 15% | −25 critical, −15 high, −8 medium, −3 low |
+   | Functional behavior | 20% | |
+   | Accessibility | 15% | |
+   | UX correctness | 15% | |
+   | Performance | 10% | |
+   | Links (no 404s) | 10% | |
+   | Visual regressions | 10% | |
+   | Content accuracy | 5% | |
+
+   Start at 100; apply deductions per category; report as a score out of 100.
+
+6. **WTF-likelihood check** — if fixing issues: stop automatically if (a) confidence in the fix drops below safe threshold, or (b) the fix count reaches 50; surface remaining issues as deferred TODOs rather than guessing
+
+7. **Add to CI pipeline** — include coverage enforcement and Playwright E2E in `.github/workflows/`
 
 ## Output Format
 
@@ -49,6 +75,7 @@ Results are printed to the user:
 
 ```
 ### Test Generation: <component or route>
+Mode: <diff-aware | full | quick>
 
 **Files created**:
 - <path>: <description>
@@ -57,6 +84,13 @@ Results are printed to the user:
 - Lines: <percent>% (target: 80%)
 - Branches: <percent>%
 - Uncovered: <list of files/lines>
+
+**Health Score: <N>/100**
+| Category | Score | Notes |
+|----------|-------|-------|
+| Console | 15/15 | No errors |
+| Functional | 18/20 | 1 medium issue |
+| ... | | |
 
 **Next steps**:
 - <specific test cases to add manually>

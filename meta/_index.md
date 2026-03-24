@@ -1,6 +1,6 @@
 # meta
 
-## skill-system — Skill 管理 (9 skills)
+## skill-system — Skill 管理 (10 skills)
 | Skill | 說明 | 觸發詞 |
 |-------|------|--------|
 | meta-guide | 導覽 meta 類 skill，解釋 skill 系統運作 | 有哪些 meta skill, skill 系統怎麼運作 |
@@ -14,8 +14,9 @@
 | skill-diagnostics | 現有 skill 主動健診：斷連結、PD 違規、內容品質、README 同步 | diagnose skill, 找出 skill 的問題, skill 品質檢查 |
 | skill-security-auditor | Skill 資安稽核：掃描 SKILL.md 的安全風險與注入漏洞 | audit skill security, security check skill |
 | skill-tester | Skill 測試器：在沙箱環境中驗證 skill 行為是否符合預期 | test skill, validate skill, 測試 skill |
+| skill-web-importer | 從網路匯入 Skill 的強制安全閘道：來源信譽評估、8 類威脅掃描、結構紅旗分析 | import skill from web, web skill validation, 網路上找到的 skill, 匯入 skill |
 
-## session — 任務管理 (6 skills)
+## session — 任務管理 (9 skills)
 | Skill | 說明 | 觸發詞 |
 |-------|------|--------|
 | task-planner | 將複雜任務分解為有依賴關係的子任務清單 | plan this task, 分解任務, 制定計畫 |
@@ -24,3 +25,6 @@
 | token-optimizer | 分析 context 用量，建議壓縮策略 | token usage, optimize context, Token 用量 |
 | pre-output-review | 每次輸出前自動品質審查 | 自動觸發（每次輸出前） |
 | self-improving-agent | 整理 Claude 自動記憶，將學習成果升級為專案知識 | review memory, graduate pattern, 整理記憶 |
+| careful | Session 安全護欄：執行破壞性指令前暫停並要求確認 | careful, careful mode, 開啟安全警告, 小心模式 |
+| freeze | 編輯範圍鎖定：將 Edit/Write 限制在指定目錄內 | freeze, lock edits, 鎖定編輯範圍, 只能改這個目錄 |
+| retro | Git 驅動週回顧：metrics、每人貢獻分析、shipping streak | retro, weekly retro, 週回顧, 工程回顧 |

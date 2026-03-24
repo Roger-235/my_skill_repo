@@ -8,3 +8,6 @@
 | token-optimizer | 分析 context 用量，識別 token 浪費，建議壓縮策略 | token usage, optimize context, Token 用量, context 快滿了 |
 | pre-output-review | 每次輸出前自動品質審查 | 自動觸發（每次輸出前） |
 | self-improving-agent | 整理 Claude 自動記憶，將學習成果升級為專案知識與可重用 skill | review memory, graduate pattern, self-improving, 整理記憶 |
+| careful | Session 安全護欄：執行破壞性指令前暫停並要求確認 | careful, careful mode, 開啟安全警告, 小心模式 |
+| freeze | 編輯範圍鎖定：將 Edit/Write 限制在指定目錄內 | freeze, lock edits, 鎖定編輯範圍, 只能改這個目錄 |
+| retro | Git 驅動週回顧：metrics、per-contributor 分析、shipping streak | retro, weekly retro, 週回顧, 工程回顧 |

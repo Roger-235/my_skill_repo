@@ -1,6 +1,6 @@
 # dev
 
-## quality — 代碼品質 (10 skills)
+## quality — 代碼品質 (14 skills)
 | Skill | 說明 | 觸發詞 |
 |-------|------|--------|
 | code-review | 寫完代碼後自動觸發審查 | review code, write code（自動觸發） |
@@ -13,6 +13,10 @@
 | env-secrets-manager | 環境變數與密鑰管理：安全存取、輪換策略 | env vars, secrets management, environment variables |
 | pr-review-expert | 專家級 PR 審查：架構、效能、安全性深度分析 | expert PR review, deep code review, senior review |
 | tech-debt-tracker | 掃描技術債、評分嚴重性、生成優先修復計畫 | tech debt, code health, debt scoring, cleanup sprint |
+| code-convention-auditor | 掃描代碼對照命名、格式、匯入規範，輸出中文違規報告 | 檢查代碼規範, 命名規範, 代碼風格, convention audit |
+| unified-quality-auditor | 統一品質閘道：自動偵測目標類型，同時執行 skill 診斷與代碼規範審查 | unified quality audit, quality gate, 統一品質審查, 全面品質掃描 |
+| pr-description-writer | 從 git diff 自動生成 PR 描述：Summary、Changes、Testing、Breaking Changes | write PR description, generate PR body, 寫 PR 描述 |
+| dead-code-auditor | 掃描未使用的 export、zombie function、不可達程式碼、未使用的 import | dead code, unused code, zombie functions, 死碼 |
 
 ## patterns — 語言規範 (4 skills)
 | Skill | 說明 | 觸發詞 |
@@ -31,7 +35,7 @@
 | playwright-mcp-setup | 設定 @playwright/mcp MCP server，讓 Claude 直接控制瀏覽器 | playwright MCP, browser control, @playwright/mcp |
 | senior-qa | 為 React/Next.js 生成測試並分析覆蓋率缺口 | generate tests, write unit tests, test coverage |
 
-## infra — 基礎設施 (10 skills)
+## infra — 基礎設施 (12 skills)
 | Skill | 說明 | 觸發詞 |
 |-------|------|--------|
 | docker-patterns | Dockerfile 最佳實踐：multi-stage、最小映像、非 root | Dockerfile, Docker, containerize, 容器化 |
@@ -44,6 +48,8 @@
 | senior-devops | 資深 DevOps：CI/CD、IaC、雲端平台、部署自動化 | DevOps, deployment automation, cloud platform |
 | senior-secops | 資深 SecOps：SAST/DAST、CVE 修復、合規驗證 | SecOps, SAST, DAST, CVE remediation |
 | senior-security | 安全工程工具組：威脅建模、漏洞分析、滲透測試準備 | security review, threat modeling, STRIDE, OWASP |
+| slo-engineer | 定義 SLO/SLI、計算 error budget、設計 burn rate 警報 | SLO, SLI, error budget, burn rate alert, 服務等級, 99.9% |
+| project-bootstrap | 一個指令建出生產就緒專案骨架：Clean Architecture、Dockerfile、CI/CD | bootstrap project, scaffold project, 建立新專案, 初始化專案 |
 
 ## tools — 工具擴充 (3 skills)
 | Skill | 說明 | 觸發詞 |
@@ -76,11 +82,12 @@
 | database-designer | 設計完整資料庫架構：類型選型、索引策略、分割、複寫 | design database, database architecture, choose database |
 | database-schema-designer | 產出生產就緒的資料庫 Schema DDL 與 UP/DOWN 遷移腳本 | design schema, write DDL, create table, database migration |
 
-## frontend — 前端開發 (2 skills)
+## frontend — 前端開發 (3 skills)
 | Skill | 說明 | 觸發詞 |
 |-------|------|--------|
 | senior-frontend | 資深前端工程師：無障礙、效能、元件架構 | build UI, implement component, accessibility audit, web vitals |
 | epic-design | 頂尖 UI/UX 設計師：電影級動畫、玻璃擬態、微互動、粒子特效 | epic design, stunning UI, cinematic animation, glassmorphism |
+| accessibility-audit | WCAG 2.2 Level AA 無障礙稽核：色彩對比、ARIA、鍵盤導航、螢幕閱讀器 | accessibility audit, WCAG, a11y, screen reader, color contrast, 無障礙 |
 
 ## backend — 後端開發 (3 skills)
 | Skill | 說明 | 觸發詞 |
@@ -106,7 +113,7 @@
 | incident-commander | 事故指揮官：從偵測到事後分析的端對端事故應對 | incident, outage, production down, P0, postmortem |
 | email-template-builder | HTML 電子郵件範本：響應式、深色模式、ESP 相容、無障礙 | email template, HTML email, transactional email |
 
-## productivity — 開發生產力 (5 skills)
+## productivity — 開發生產力 (8 skills)
 | Skill | 說明 | 觸發詞 |
 |-------|------|--------|
 | codebase-onboarding | 陌生程式碼庫的結構化入職指南：架構、入口點、資料流 | onboarding, new codebase, understand codebase, codebase tour |
@@ -114,10 +121,15 @@
 | monorepo-navigator | Monorepo 導覽：Nx/Turborepo/Bazel 套件圖、受影響任務 | monorepo, nx, turborepo, bazel, affected packages |
 | performance-profiler | 效能瓶頸診斷：CPU 熱點、記憶體洩漏、N+1 查詢 | performance, profiling, slow, memory leak, flame graph |
 | migration-architect | 技術遷移架構：資料庫遷移、框架升級、零停機策略 | migration, migrate, upgrade, zero downtime |
+| office-hours | YC 風格產品腦力激盪：六個強迫診斷問題，產出設計文件 | office hours, help me think through this, validate my idea, 想法驗證 |
+| standup-notes | 從 git log 自動生成每日站會報告：Yesterday / Today / Blockers | standup, daily standup, scrum notes, 站會, 每日報告 |
+| spec-writer | Spec-first：需求轉規格文件，定義介面合約與成功標準後再實作 | write a spec, spec first, 先寫 spec, technical spec, feature spec |
 
-## release — 發布管理 (3 skills)
+## release — 發布管理 (5 skills)
 | Skill | 說明 | 觸發詞 |
 |-------|------|--------|
 | changelog-generator | 從 git 歷史/Conventional Commits 產生 CHANGELOG.md | changelog, release notes, conventional commits |
 | release-manager | 完整軟體發布流程：SemVer 決策、標籤、CI 驗證、發布後驗證 | release, cut a release, ship, semantic versioning |
 | runbook-generator | 操作 Runbook：部署、事故應對、維護、擴縮容、還原程序 | runbook, operational guide, SOP, on-call runbook |
+| canary | 部署後回歸監控：比對 baseline，只在有變化時發出警報 | canary, 部署後監控, 上線後巡邏 |
+| document-release | 發布後文件同步：讀取 git diff 更新 README/ARCHITECTURE/CHANGELOG 等 | document release, sync docs, update readme after ship, 更新文件 |

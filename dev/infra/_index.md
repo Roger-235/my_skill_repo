@@ -12,3 +12,5 @@
 | senior-devops | 資深 DevOps 工程師：CI/CD、IaC、雲端平台、部署自動化 | DevOps, deployment automation, infrastructure, cloud platform |
 | senior-secops | 資深 SecOps 工程師：SAST/DAST、CVE 修復、合規驗證、安全政策 | SecOps, security engineering, SAST, DAST, CVE remediation |
 | senior-security | 安全工程工具組：威脅建模、漏洞分析、滲透測試準備 | security review, threat modeling, STRIDE, OWASP, security audit |
+| slo-engineer | 定義 SLO/SLI、計算 error budget、設計 burn rate 警報規則，輸出 Prometheus 配置 | SLO, SLI, error budget, reliability target, burn rate alert, 服務等級, 99.9% |
+| project-bootstrap | 一個指令建出生產就緒專案骨架：Clean Architecture、Dockerfile、CI/CD、pre-commit | bootstrap project, scaffold project, new project setup, 建立新專案, 初始化專案 |

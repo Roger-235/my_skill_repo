@@ -34,7 +34,7 @@ See [`_index.md`](_index.md) for the full cross-category index, or per-category:
 
 | Category | Subcategories | `_index.md` |
 |----------|--------------|-------------|
-| dev | quality · patterns · testing · infra · tools · agents · architecture · api · frontend · backend · data-ml · workspace · productivity · release | [dev/_index.md](dev/_index.md) |
+| dev | quality (14) · patterns (4) · testing (5) · infra (12) · tools (3) · agents (7) · architecture (4) · api (4) · frontend (3) · backend (3) · data-ml (5) · workspace (4) · productivity (8) · release (5) | [dev/_index.md](dev/_index.md) |
 | meta | skill-system (skill-design, skill-maker, skill-edit, skill-audit, skill-readme-sync, skill-index-sync, skill-library-lint, skill-security-auditor, skill-tester, skill-web-importer) · session (task-planner, checkpoint-recovery, continuous-learning, token-optimizer, pre-output-review, self-improving-agent, careful, freeze, retro) | [meta/_index.md](meta/_index.md) |
 | business | c-suite (28) · marketing (43) · product (13) · finance (2) · compliance (12) · project-mgmt (6) · growth (4) | [business/_index.md](business/_index.md) |
 | data | — | [data/_index.md](data/_index.md) · db-schema, financial-modeling, market-research |
@@ -54,7 +54,7 @@ metadata:
 ```
 
 ### Valid optional frontmatter fields
-`argument-hint` · `user-invocable` · `disable-model-invocation` · `model` · `context` · `agent` · `license` · `compatibility` · `format`
+`argument-hint` · `user-invocable` · `disable-model-invocation` · `model` · `context` · `agent` · `license` · `compatibility` · `format` · `version` · `author`
 
 **`allowed-tools` is NOT a valid frontmatter field** — tool restrictions go in Rules (Must/Never).
 
@@ -180,7 +180,13 @@ This keeps CLAUDE.md lean while making full content available just-in-time.
 | PreToolUse hook | 100% (deterministic) | Critical rules: block dangerous commands, enforce secret scanning |
 | PostToolUse hook | 100% (deterministic) | Automatic linting, test runs after edits |
 
-Critical security rules (block `rm -rf`, detect secrets, etc.) **must** be hooks, not CLAUDE.md instructions. See `hooks/` for deployable hook scripts.
+Critical security rules (block `rm -rf`, protect `CLAUDE.md`/`settings.json`, detect secrets) **must** be hooks, not CLAUDE.md instructions. See `hooks/` for deployable hook scripts.
+
+| Hook | Tool intercepted | Blocks |
+|------|-----------------|--------|
+| `careful-mode.sh` | Bash (PreToolUse) | Destructive commands, credential file reads |
+| `protect-critical-files.sh` | Edit/Write (PreToolUse) | Direct edits to `settings.json`, `.env*` |
+| `post-edit-lint.sh` | Edit/Write (PostToolUse) | Non-blocking; runs linter after each edit |
 
 ### `disable-model-invocation: true`
 

@@ -9,6 +9,7 @@ Hooks enforce rules at **100%** — unlike CLAUDE.md instructions (~70%). Use ho
 | Hook | Trigger | Type | Purpose |
 |------|---------|------|---------|
 | `careful-mode.sh` | Bash (PreToolUse) | Blocking (exit 2) | Block destructive commands: `rm -rf`, `DROP TABLE`, `git push --force`, `kubectl delete`, credential file reads |
+| `protect-critical-files.sh` | Edit/Write (PreToolUse) | Blocking (exit 2) | Block direct edits to `settings.json`, `.env*` without explicit user confirmation |
 | `post-edit-lint.sh` | Edit/Write (PostToolUse) | Non-blocking (exit 0) | Auto-lint after every file edit (ESLint / ruff / golangci-lint) |
 
 ## Deployment
@@ -17,6 +18,7 @@ Hooks enforce rules at **100%** — unlike CLAUDE.md instructions (~70%). Use ho
 # 1. Copy hooks to target project
 mkdir -p .claude/hooks
 cp skill/hooks/careful-mode.sh .claude/hooks/
+cp skill/hooks/protect-critical-files.sh .claude/hooks/
 cp skill/hooks/post-edit-lint.sh .claude/hooks/
 chmod +x .claude/hooks/*.sh
 

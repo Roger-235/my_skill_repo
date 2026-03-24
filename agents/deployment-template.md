@@ -18,6 +18,7 @@ Copy this structure to deploy the skill library to any project.
 │   └── researcher.md
 ├── hooks/                 ← copy from skill repo hooks/
 │   ├── careful-mode.sh
+│   ├── protect-critical-files.sh
 │   └── post-edit-lint.sh
 └── settings.json          ← hook registration (merge with existing)
 ```
@@ -74,7 +75,7 @@ cp -r dev/ meta/ security/ "$TARGET/.claude/skill/"
 cp agents/security-reviewer.md agents/code-auditor.md agents/researcher.md "$TARGET/.claude/agents/"
 
 # Copy hooks
-cp hooks/careful-mode.sh hooks/post-edit-lint.sh "$TARGET/.claude/hooks/"
+cp hooks/careful-mode.sh hooks/protect-critical-files.sh hooks/post-edit-lint.sh "$TARGET/.claude/hooks/"
 chmod +x "$TARGET/.claude/hooks/"*.sh
 
 echo "Deployed to $TARGET/.claude/"
@@ -96,6 +97,15 @@ Merge this into your existing `.claude/settings.json`:
           {
             "type": "command",
             "command": "bash .claude/hooks/careful-mode.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/protect-critical-files.sh"
           }
         ]
       }

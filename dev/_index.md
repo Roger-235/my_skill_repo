@@ -58,13 +58,16 @@
 | mcp-server-builder | MCP Server Builder：進階 MCP server 建構與配置 | build MCP server, MCP server builder |
 | auto-mcp | Claude 無法完成某功能時自動產生 MCP server | cannot access, unable to perform（自動觸發） |
 
-## agents — AI 代理 (4 skills)
+## agents — AI 代理 (7 skills)
 | Skill | 說明 | 觸發詞 |
 |-------|------|--------|
 | agent-designer | 設計自主 AI 代理：目標、記憶架構、工具選擇與執行循環 | design agent, build agent, agent architecture |
 | agent-workflow-designer | 設計多步驟代理工作流程：編排、分支、平行執行 | agent workflow, multi-step agent, orchestrate agents |
 | rag-architect | 設計 RAG 系統：切塊策略、嵌入模型、向量資料庫 | design RAG, build RAG, retrieval-augmented generation |
 | autoresearch-agent | 自主規劃多輪搜尋並最佳化目標指標的研究代理 | auto research, autonomous research, optimize metric |
+| auto-orchestrator | 自動拆解複雜任務並平行派發給多個 Claude agent，最後整合結果 | do this in parallel, run agents simultaneously, fan out, 平行執行, 多agent一起 |
+| orchestrating-swarms | 使用 TeammateTool 協調多 agent swarm：平行代碼審查、管線工作流 | coordinating multiple agents, swarm agents, spawn subagent, TeammateTool |
+| pipeline-orchestrator | 將 story 驅動過完整自動化管線：任務拆解→驗證→執行→品質閘道 | run pipeline, automate feature pipeline, orchestrate skill chain, L0 orchestrator |
 
 ## architecture — 系統架構 (4 skills)
 | Skill | 說明 | 觸發詞 |

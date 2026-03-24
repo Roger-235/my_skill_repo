@@ -27,7 +27,9 @@ SAFE_PATTERNS=(
 is_safe_exception() {
   local cmd="$1"
   for pattern in "${SAFE_PATTERNS[@]}"; do
-    if echo "$cmd" | grep -q "$pattern"; then
+    # Use -w (whole-word) and -F (fixed-string) to prevent substring bypass
+    # e.g. "node_modules_backup" must NOT match the "node_modules" pattern
+    if echo "$cmd" | grep -qwF "$pattern"; then
       return 0
     fi
   done

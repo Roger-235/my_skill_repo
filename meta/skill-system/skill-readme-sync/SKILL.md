@@ -34,7 +34,7 @@ Do NOT trigger for:
 1. **Read both files** — load the full content of `SKILL.md` and `README.md` in the same folder; if `README.md` is missing, stop and report the gap
 
 2. **Extract SKILL.md facts** — record the canonical values from SKILL.md:
-   - `name`, `description`, `metadata.category`, `allowed-tools` from frontmatter
+   - `name`, `description`, `metadata.category` from frontmatter
    - Trigger keywords and "Do NOT trigger" items from `## Trigger`
    - Steps summary from `## Steps`
    - Key rules from `## Rules`
@@ -61,7 +61,7 @@ Do NOT trigger for:
 | R3 | Trigger keywords | `## Trigger` positive list | 觸發時機 / Trigger section |
 | R4 | Negative triggers | `## Trigger` "Do NOT trigger" | 觸發時機 / Trigger section |
 | R5 | Feature list | `## Steps` action verbs | 功能 / Features section |
-| R6 | Required tools | frontmatter `allowed-tools` | 前置需求 / Prerequisites |
+| R6 | Required tools | `### Must` tool restrictions in `## Rules` | 前置需求 / Prerequisites |
 | R7 | Category | `metadata.category` | Any path or category mention |
 | R8 | Security rules | `### Never` security items | 安全性 / Security section |
 | R9 | Output description | `## Output Format` prose | 輸出格式 / Output or 使用方法 |
